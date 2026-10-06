@@ -12,7 +12,7 @@ Status: in progress. This report records actual AI-assisted work and review find
 
 1. The first cutting workspace implementation called a loader directly from a React effect. ESLint's `react-hooks/set-state-in-effect` rule flagged synchronous state changes from that effect. The loader was rewritten so state is updated from asynchronous fetch callbacks, with cleanup to ignore results after unmount.
 2. The first hand-written SQL migration was maintained separately from the Prisma schema and could drift as models changed (for example, when the component variance audit snapshot was added). It was replaced with SQL generated from the Prisma schema, and subsequent additive changes were placed in their own migrations.
-3. The generated Next.js project scaffold assumed a URL-friendly directory name and rejected the actual workspace path containing spaces and uppercase letters. Scaffolding was moved through a lowercase child directory. The interrupted move/install left an extra scaffold directory and a partially installed local dependency tree; this is an environment/setup issue still to clean up.
+3. The generated Next.js project scaffold assumed a URL-friendly directory name and rejected the actual workspace path containing spaces and uppercase letters. Scaffolding was moved through a lowercase child directory. The interrupted move/install temporarily left an extra scaffold directory and a partial dependency tree; the extra directory was later removed and `npm ci` restored dependencies.
 4. `@prisma/client` was pinned to 6.16.2 while the Prisma CLI/generator was 6.19.3. A clean install exposed missing generated enum/client exports, causing TypeScript and enum-based policy tests to fail. The package versions were aligned at 6.19.3 and the client regenerated; checks then passed.
 
 ## 3. Human review and refactoring
@@ -37,5 +37,6 @@ Status: in progress. This report records actual AI-assisted work and review find
 - Docker Compose configuration: `docker compose config --quiet` passed. Docker image build and runtime were not tested because the Docker daemon is unavailable.
 - Prisma schema validation: passed.
 - ESLint, TypeScript typecheck, production build, Prisma client generation, and schema validation: passed after aligning Prisma package versions.
-- The npm dependency tree is now complete. An empty generated scaffold directory remains but is excluded from Docker builds.
+- The npm dependency tree is now complete, and the temporary scaffold directory was removed.
+- Contrast review found secondary text at 4.15:1 and input borders at 2.06:1. Colors were darkened; current sampled ratios are at least 4.97:1 for text and 3.48:1 for input borders.
 - Real PostgreSQL integration tests, browser E2E tests, public deployment, and the final requirement audit: not yet completed.
