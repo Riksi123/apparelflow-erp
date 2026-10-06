@@ -30,13 +30,15 @@ Status: in progress. This report records actual AI-assisted work and review find
 - Rejection requires a trimmed non-empty reason and is logged with component count variance data.
 - Sewing access is restricted to sewing supervisors, the queue query selects only verified orders, and starting assembly uses a conditional `VERIFIED → SEWING_IN_PROGRESS` database update.
 - Rejected orders now return to their creating cutting supervisor for a re-cut. The immutable rejection snapshot stays in the audit log, current counts are reset, and re-verification is required after resubmission.
+- Two Playwright workflows were added to exercise real login and persisted cross-role behavior for approval-to-sewing and shortage-to-re-cut. The runner discovers both tests; execution still requires a seeded PostgreSQL database and installed Chromium.
 
 ## Review status
 
 - Core domain and mocked Prisma service tests: 20 passing with Vitest 3.2.7.
+- Playwright workflow specs: two discovered successfully with `npm run test:e2e -- --list`; browser execution remains pending because PostgreSQL, seeded demo accounts, and the Docker daemon are unavailable here.
 - Docker Compose configuration: `docker compose config --quiet` passed. Docker image build and runtime were not tested because the Docker daemon is unavailable.
 - Prisma schema validation: passed.
 - ESLint, TypeScript typecheck, production build, Prisma client generation, and schema validation: passed after aligning Prisma package versions.
 - The npm dependency tree is now complete, and the temporary scaffold directory was removed.
 - Contrast review found secondary text at 4.15:1 and input borders at 2.06:1. Colors were darkened; current sampled ratios are at least 4.97:1 for text and 3.48:1 for input borders.
-- Real PostgreSQL integration tests, browser E2E tests, public deployment, and the final requirement audit: not yet completed.
+- Real PostgreSQL integration tests, browser E2E execution, public deployment, and the final requirement audit: not yet completed.

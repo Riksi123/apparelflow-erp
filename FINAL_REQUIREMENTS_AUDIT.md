@@ -11,7 +11,8 @@ Status: in progress. This checklist reflects checks actually performed to date; 
 - [x] Rejection requires a nonblank reason.
 - [x] Rejected orders return to their creating supervisor with verifier feedback visible; re-cut must be verified again.
 - [x] Sewing supervisor can inspect the verified queue and start assembly.
-- [ ] Browser end-to-end flows have not been run.
+- [x] Two Playwright browser flows are authored and discovered by `playwright test --list` (GREEN approval to sewing; RED rejection through re-cut).
+- [ ] Browser end-to-end flows have not been run because this environment has no configured PostgreSQL/demo seed or running Docker daemon.
 
 ## Data, security, and audit
 
@@ -27,11 +28,12 @@ Status: in progress. This checklist reflects checks actually performed to date; 
 ## Validation and delivery
 
 - [x] Twenty unit/service tests passed after the re-cut path was added.
+- [x] Playwright E2E specs typecheck and both are listed by the Playwright runner.
 - [x] Prisma client generation and schema validation passed.
 - [x] ESLint, TypeScript typecheck, and production build passed.
 - [x] Docker Compose configuration parses.
 - [ ] Docker image build and runtime are unverified because Docker daemon is unavailable.
-- [x] Local Git history has ten milestone-oriented commits.
+- [x] Local Git history has eleven milestone-oriented commits.
 - [ ] Public cloud deployment and public GitHub repository have not been created.
 - [x] README and in-progress AI report are present.
 - [x] Sampled input, body, secondary text, button, and status-badge colors were checked; text contrast is at least 4.97:1 and input-border contrast is at least 3.48:1.

@@ -66,7 +66,9 @@ The sewing workspace shows component counts, verifier attribution and timestamp,
 
 ## Tests
 
-Run tests with `npm test`. The pure policy suite and mocked Prisma service suite cover recipe multipliers, traffic-light statuses, GREEN/YELLOW approval, RED and incomplete-count hard stops, rejection reason validation, role checks, state transitions, wastage, transactional audit writes, and the verified-only sewing query predicate. True PostgreSQL integration tests and Playwright browser flows still need to run against a configured database.
+Run unit and mocked service tests with `npm test`. They cover recipe multipliers, traffic-light statuses, GREEN/YELLOW approval, RED and incomplete-count hard stops, rejection reason validation, role checks, state transitions, wastage, transactional audit writes, and the verified-only sewing query predicate.
+
+Two Playwright browser workflows cover GREEN approval through sewing and RED shortage rejection through re-cut/resubmission. To run them, start PostgreSQL, apply migrations, seed the demo accounts, set `DEMO_PASSWORD` to the seed password, and install Chromium with `npx playwright install chromium`; then run `npm run test:e2e`. Set `BASE_URL` to target an already running app instead of starting a local development server. The browser tests use timestamped fabric roll IDs and leave their resulting audit data in the database.
 
 ## Deployment
 
@@ -80,6 +82,7 @@ The Dockerfile builds Next.js in standalone mode and runs as an unprivileged use
 - [x] Verifier terminal, server-side approval hard stop, rejection reason, and immutable audit trail
 - [x] Verified-only sewing queue and guarded start-sewing transition
 - [x] Re-cut and resubmission path for rejected orders
-- [x] Core domain and mocked service tests (17 Vitest cases)
+- [x] Core domain and mocked service tests (20 Vitest cases)
+- [x] Playwright browser workflow specs authored and discoverable
 - [x] Docker and Compose deployment configuration
-- [ ] PostgreSQL integration/E2E tests, public deployment, and final audit
+- [ ] PostgreSQL-backed and browser E2E execution, public deployment, and final audit
