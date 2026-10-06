@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUTTING_SUPERVISOR
+  CUTTING_VERIFIER
+  SEWING_SUPERVISOR
+}
+
+enum CuttingOrderStatus {
+  CUTTING_IN_PROGRESS
+  PENDING_VERIFICATION
+  VERIFIED
+  REJECTED
+  SEWING_IN_PROGRESS
+}
+
+enum ComponentStatus {
+  GREEN
+  YELLOW
+  RED
+}
+
+enum VerificationDecision {
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id               String             @id @default(cuid())
+  email            String             @unique
+  passwordHash     String             @map("password_hash")
+  role             UserRole
+  fullName         String             @map("full_name")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  createdOrders    CuttingOrder[]     @relation("OrderCreator")
+  verificationLogs VerificationLog[]
+
+  @@map("users")
+}
+
+model Recipe {
+  id                  String             @id @default(cuid())
+  recipeCode          String             @unique @map("recipe_code")
+  name                String
+  category            String
+  standardFabricYards Decimal            @db.Decimal(8, 3) @map("std_fabric_yards")
+  wastageCap          Decimal            @db.Decimal(5, 2) @map("wastage_cap")
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @updatedAt @map("updated_at")
+  components          RecipeComponent[]
+  cuttingOrders       CuttingOrder[]
+
+  @@map("recipes")
+}
+
+model RecipeComponent {
+  id                 String             @id @default(cuid())
+  recipeId           String             @map("recipe_id")
+  componentName      String             @map("component_name")
+  piecesPerGarment  Int                @map("pieces_per_garment")
+  imageUrl           String?            @map("image_url")
+  recipe             Recipe             @relation(fields: [recipeId], references: [id], onDelete: Restrict)
+  verificationItems VerificationItem[]
+
+  @@unique([recipeId, componentName])
+  @@index([recipeId])
+  @@map("recipe_components")
+}
+
+model CuttingOrder {
+  id                String            @id @default(cuid())
+  orderNo           String            @unique @map("order_no")
+  recipeId          String            @map("recipe_id")
+  targetQuantity    Int               @map("target_qty")
+  fabricRollId      String            @map("fabric_roll_id")
+  actualFabricYards Decimal           @db.Decimal(10, 3) @map("actual_fabric_yds")
+  status            CuttingOrderStatus @default(CUTTING_IN_PROGRESS)
+  createdById       String            @map("created_by")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+  recipe            Recipe            @relation(fields: [recipeId], references: [id], onDelete: Restrict)
+  createdBy         User              @relation("OrderCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  verificationItems VerificationItem[]
+  verificationLogs VerificationLog[]
+
+  @@index([status, createdAt])
+  @@index([recipeId])
+  @@index([createdById])
+  @@map("cutting_orders")
+}
+
+model VerificationItem {
+  id                 String          @id @default(cuid())
+  orderId            String          @map("order_id")
+  componentId        String          @map("component_id")
+  expectedQuantity   Int             @map("expected_qty")
+  actualQuantity     Int?            @map("actual_qty")
+  status             ComponentStatus? @default(GREEN)
+  order              CuttingOrder    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  component          RecipeComponent @relation(fields: [componentId], references: [id], onDelete: Restrict)
+
+  @@unique([orderId, componentId])
+  @@index([orderId])
+  @@map("verification_items")
+}
+
+model VerificationLog {
+  id               String               @id @default(cuid())
+  orderId          String               @map("order_id")
+  verifierId       String               @map("verifier_id")
+  decision         VerificationDecision
+  rejectionNote    String?              @map("rejection_note")
+  componentVariances Json?              @map("component_variances")
+  wastagePercent   Decimal?             @db.Decimal(8, 4) @map("wastage_pct")
+  createdAt        DateTime             @default(now()) @map("created_at")
+  order            CuttingOrder         @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  verifier         User                 @relation(fields: [verifierId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([verifierId])
+  @@map("verification_logs")
+}
