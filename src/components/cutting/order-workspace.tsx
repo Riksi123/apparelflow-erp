@@ -25,7 +25,7 @@ type CuttingOrder = {
   _count?: { verificationItems: number };
 };
 
-const fieldClass = "mt-2 w-full rounded-lg border border-[#aab8b0] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20";
+const fieldClass = "mt-2 w-full rounded-lg border border-[#7b8e83] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
@@ -171,7 +171,7 @@ export function CuttingOrderWorkspace() {
             {expectedFabric !== null && <div className="mt-1 flex justify-between gap-4 border-t border-[#dce4df] pt-1"><span>Expected fabric for batch</span><strong>{expectedFabric.toFixed(2)} yds</strong></div>}
           </div>}
           <div>
-            <label htmlFor="quantity" className="text-sm font-semibold">Target batch quantity <span className="font-normal text-[#718079]">(garments)</span></label>
+            <label htmlFor="quantity" className="text-sm font-semibold">Target batch quantity <span className="font-normal text-[#65736c]">(garments)</span></label>
             <input id="quantity" type="number" inputMode="numeric" min="1" max="100000" step="1" value={targetQuantity} onChange={(event) => setTargetQuantity(event.target.value)} className={fieldClass} required />
           </div>
           <div>
@@ -179,7 +179,7 @@ export function CuttingOrderWorkspace() {
             <input id="roll" type="text" maxLength={80} value={fabricRollId} onChange={(event) => setFabricRollId(event.target.value)} className={fieldClass} placeholder="e.g. FAB-ROLL-882" required />
           </div>
           <div>
-            <label htmlFor="yards" className="text-sm font-semibold">Actual fabric used <span className="font-normal text-[#718079]">(yards)</span></label>
+            <label htmlFor="yards" className="text-sm font-semibold">Actual fabric used <span className="font-normal text-[#65736c]">(yards)</span></label>
             <input id="yards" type="number" inputMode="decimal" min="0.001" max="1000000" step="0.001" value={actualFabricYards} onChange={(event) => setActualFabricYards(event.target.value)} className={fieldClass} required />
           </div>
           {componentPreview.length > 0 && <div className="rounded-lg border border-[#dce4df] p-3">
@@ -217,7 +217,7 @@ export function CuttingOrderWorkspace() {
                 <span>Fabric roll <strong className="text-[#34453e]">{order.fabricRollId}</strong></span>
                 <span>{order.actualFabricYards} yds</span>
               </div>
-              <p className="mt-2 text-[11px] text-[#8a9891]">Created {formatDate(order.createdAt)}</p>
+              <p className="mt-2 text-[11px] text-[#65736c]">Created {formatDate(order.createdAt)}</p>
               {order.status === "REJECTED" && order.verificationLogs?.[0] && <p className="mt-3 rounded-lg border border-[#e9b7b2] bg-[#fff1ef] px-3 py-2 text-xs leading-5 text-[#8f2e27]"><strong>Verifier feedback ({order.verificationLogs[0].verifier.fullName}):</strong> {order.verificationLogs[0].rejectionNote}</p>}
               {order.status === "REJECTED" && <form onSubmit={(event) => beginOrderRecut(event, order)} className="mt-4 rounded-xl border border-[#f0d596] bg-[#fff9e9] p-4">
                 <p className="text-sm font-semibold text-[#70520f]">Returned for re-cutting</p>

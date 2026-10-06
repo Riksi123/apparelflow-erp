@@ -36,7 +36,7 @@ type Details = {
   };
 };
 
-const inputClass = "w-full rounded-lg border border-[#aab8b0] bg-white px-3 py-2.5 text-sm text-[#14231f] shadow-sm focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20";
+const inputClass = "w-full rounded-lg border border-[#7b8e83] bg-white px-3 py-2.5 text-sm text-[#14231f] shadow-sm focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20";
 const badgeStyle: Record<string, string> = {
   GREEN: "bg-[#e7f5eb] text-[#205b3b]",
   YELLOW: "bg-[#fff5df] text-[#805b13]",
@@ -176,15 +176,15 @@ export function VerificationWorkspace() {
         {error && <p role="alert" className="mb-5 rounded-lg border border-[#e9b7b2] bg-[#fff1ef] px-3 py-2 text-sm font-medium text-[#8f2e27]">{error}</p>}
         {!details ? <div className="grid min-h-80 place-items-center text-center"><div><p className="font-semibold">Select a pending batch</p><p className="mt-1 text-sm text-[#64726c]">Recipe components and counts will appear here.</p></div></div> : <>
           <div className="flex flex-wrap items-start justify-between gap-4">
-            <div><p className="text-xs font-bold tracking-[0.16em] text-[#718079]">{details.recipe.recipeCode} · {details.recipe.name}</p><h2 className="mt-2 text-2xl font-semibold">{details.orderNo}</h2><p className="mt-1 text-sm text-[#64726c]">{details.targetQuantity} garments · Roll {details.fabricRollId}</p></div>
-            <div className="rounded-lg bg-[#f4f6f5] px-3 py-2 text-right"><p className="text-[10px] font-bold tracking-wide text-[#718079]">FABRIC USED</p><p className="mt-1 text-sm font-semibold">{details.actualFabricYards} yds</p></div>
+            <div><p className="text-xs font-bold tracking-[0.16em] text-[#65736c]">{details.recipe.recipeCode} · {details.recipe.name}</p><h2 className="mt-2 text-2xl font-semibold">{details.orderNo}</h2><p className="mt-1 text-sm text-[#64726c]">{details.targetQuantity} garments · Roll {details.fabricRollId}</p></div>
+            <div className="rounded-lg bg-[#f4f6f5] px-3 py-2 text-right"><p className="text-[10px] font-bold tracking-wide text-[#65736c]">FABRIC USED</p><p className="mt-1 text-sm font-semibold">{details.actualFabricYards} yds</p></div>
           </div>
 
           <div className="mt-7 overflow-x-auto">
             <table className="w-full min-w-[560px] border-separate border-spacing-0 text-left text-sm">
-              <thead><tr className="text-xs font-bold uppercase tracking-wide text-[#718079]"><th className="border-b border-[#dce4df] py-3 pr-4">Recipe component</th><th className="border-b border-[#dce4df] px-3 py-3">Expected</th><th className="border-b border-[#dce4df] px-3 py-3">Physical count</th><th className="border-b border-[#dce4df] px-3 py-3">Status</th></tr></thead>
+              <thead><tr className="text-xs font-bold uppercase tracking-wide text-[#65736c]"><th className="border-b border-[#dce4df] py-3 pr-4">Recipe component</th><th className="border-b border-[#dce4df] px-3 py-3">Expected</th><th className="border-b border-[#dce4df] px-3 py-3">Physical count</th><th className="border-b border-[#dce4df] px-3 py-3">Status</th></tr></thead>
               <tbody>{componentStatuses.map(({ component, status }) => <tr key={component.id}>
-                <th scope="row" className="border-b border-[#e8eeea] py-4 pr-4 font-semibold">{component.componentName}<span className="mt-1 block text-xs font-normal text-[#718079]">{component.piecesPerGarment} per garment</span></th>
+                <th scope="row" className="border-b border-[#e8eeea] py-4 pr-4 font-semibold">{component.componentName}<span className="mt-1 block text-xs font-normal text-[#65736c]">{component.piecesPerGarment} per garment</span></th>
                 <td className="border-b border-[#e8eeea] px-3 py-4 font-semibold tabular-nums">{component.expectedQuantity}</td>
                 <td className="border-b border-[#e8eeea] px-3 py-4"><input aria-label={`${component.componentName} physical count`} type="number" min="0" step="1" max="10000000" inputMode="numeric" value={counts[component.id] ?? ""} onChange={(event) => setCounts((current) => ({ ...current, [component.id]: event.target.value }))} className={`${inputClass} max-w-36`} /></td>
                 <td className="border-b border-[#e8eeea] px-3 py-4"><span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold ${badgeStyle[status] ?? "bg-[#fff1ef] text-[#8f2e27]"}`}>{status === "UNCOUNTED" ? "NOT COUNTED" : status}</span></td>

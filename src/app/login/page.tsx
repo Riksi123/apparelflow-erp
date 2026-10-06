@@ -20,12 +20,12 @@ export default function LoginPage() {
           <div>
             <label htmlFor="email" className="mb-2 block text-sm font-semibold">Work email</label>
             <input id="email" name="email" type="email" autoComplete="username" required maxLength={254}
-              className="w-full rounded-lg border border-[#aab8b0] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm placeholder:text-[#718079] focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20" />
+              className="w-full rounded-lg border border-[#7b8e83] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm placeholder:text-[#65736c] focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20" />
           </div>
           <div>
             <label htmlFor="password" className="mb-2 block text-sm font-semibold">Password</label>
             <input id="password" name="password" type="password" autoComplete="current-password" required maxLength={128}
-              className="w-full rounded-lg border border-[#aab8b0] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm placeholder:text-[#718079] focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20" />
+              className="w-full rounded-lg border border-[#7b8e83] bg-white px-3 py-3 text-sm text-[#14231f] shadow-sm placeholder:text-[#65736c] focus:border-[#287256] focus:outline-none focus:ring-2 focus:ring-[#287256]/20" />
           </div>
           {state.error && <p role="alert" className="rounded-lg border border-[#e9b7b2] bg-[#fff1ef] px-3 py-2 text-sm font-medium text-[#8f2e27]">{state.error}</p>}
           <button type="submit" disabled={pending} className="w-full rounded-lg bg-[#164e3b] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#103d2e] disabled:cursor-not-allowed disabled:opacity-60">

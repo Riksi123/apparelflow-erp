@@ -72,7 +72,7 @@ export default async function Home() {
           <aside className="rounded-2xl border border-[#dce4df] bg-white p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold tracking-[0.16em] text-[#718079]">GATEKEEPER STATUS</p>
+                <p className="text-xs font-bold tracking-[0.16em] text-[#65736c]">GATEKEEPER STATUS</p>
                 <p className="mt-2 text-xl font-semibold">Verification required</p>
               </div>
               <span className="rounded-lg bg-[#fff5df] px-3 py-2 text-xs font-bold text-[#805b13]">QC GATE</span>
@@ -86,7 +86,7 @@ export default async function Home() {
                 <span className="h-1.5 flex-1 rounded-full bg-[#d6a43a]" />
                 <span className="h-1.5 flex-1 rounded-full bg-[#dce4df]" />
               </div>
-              <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-wide text-[#718079]">
+              <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-wide text-[#65736c]">
                 <span>Cutting</span><span>Verify</span><span>Sewing</span>
               </div>
             </div>
@@ -95,17 +95,17 @@ export default async function Home() {
 
         <div className="mt-14 flex items-end justify-between border-b border-[#dce4df] pb-4">
           <div>
-            <p className="text-xs font-bold tracking-[0.16em] text-[#718079]">WORKSPACES</p>
+            <p className="text-xs font-bold tracking-[0.16em] text-[#65736c]">WORKSPACES</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight">Production teams</h2>
           </div>
-          <p className="hidden text-sm text-[#718079] sm:block">Role-based access · Persistent production records</p>
+          <p className="hidden text-sm text-[#65736c] sm:block">Role-based access · Persistent production records</p>
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {workspaces.map((workspace) => (
             <article key={workspace.number} className="group rounded-2xl border border-[#dce4df] bg-white p-6 transition hover:border-[#97b5a5] hover:shadow-md">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold tracking-[0.16em] text-[#8a9891]">{workspace.number}</span>
+                <span className="text-xs font-bold tracking-[0.16em] text-[#65736c]">{workspace.number}</span>
                 <span className="grid size-9 place-items-center rounded-full border border-[#dce4df] text-[#287256] transition group-hover:bg-[#164e3b] group-hover:text-white" aria-hidden="true">↗</span>
               </div>
               <h3 className="mt-8 text-xl font-semibold">{workspace.title}</h3>
@@ -122,7 +122,7 @@ export default async function Home() {
         </div>
       </section>
       <footer className="border-t border-[#dce4df] bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-5 text-xs text-[#718079] sm:flex-row sm:items-center sm:justify-between lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-5 text-xs text-[#65736c] sm:flex-row sm:items-center sm:justify-between lg:px-10">
           <span>ApparelFlow · Production Batch Verification</span>
           <span>Workspace foundation</span>
         </div>
