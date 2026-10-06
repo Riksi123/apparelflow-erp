@@ -31,7 +31,7 @@ Status: in progress. This checklist reflects checks actually performed to date; 
 - [x] ESLint, TypeScript typecheck, and production build passed.
 - [x] Docker Compose configuration parses.
 - [ ] Docker image build and runtime are unverified because Docker daemon is unavailable.
-- [x] Local Git history has eight milestone-oriented commits.
+- [x] Local Git history has ten milestone-oriented commits.
 - [ ] Public cloud deployment and public GitHub repository have not been created.
 - [x] README and in-progress AI report are present.
 - [x] Sampled input, body, secondary text, button, and status-badge colors were checked; text contrast is at least 4.97:1 and input-border contrast is at least 3.48:1.
