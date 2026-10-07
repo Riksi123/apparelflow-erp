@@ -27,12 +27,18 @@ export async function loginAction(_previousState: LoginState, formData: FormData
     return { error: "Email or password is incorrect." };
   }
 
-  await createSession({
-    id: user.id,
-    email: user.email,
-    fullName: user.fullName,
-    role: user.role,
-  });
+  try {
+    await createSession({
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+    });
+  } catch (error) {
+    // Usually a missing or too-short SESSION_SECRET; surface it instead of crashing the page.
+    console.error("Failed to create session:", error);
+    return { error: "Sign-in is unavailable because the server's session configuration is invalid. Please contact an administrator." };
+  }
 
   return redirect("/");
 }
