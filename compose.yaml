@@ -1,0 +1,35 @@
+services:
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: apparelflow
+      POSTGRES_USER: apparelflow
+      POSTGRES_PASSWORD: local-only-password
+    ports:
+      - "5432:5432"
+    volumes:
+      - apparelflow-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apparelflow -d apparelflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    command: ["sh", "-c", "npx prisma migrate deploy && npx tsx prisma/seed.ts && node server.js"]
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://apparelflow:local-only-password@database:5432/apparelflow?schema=public
+      SESSION_SECRET: ${SESSION_SECRET:?Set SESSION_SECRET in your environment}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:?Set DEMO_PASSWORD in your environment}
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+volumes:
+  apparelflow-postgres:
