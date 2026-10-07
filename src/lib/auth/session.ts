@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createHash } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -9,12 +10,25 @@ import { prisma } from "@/lib/db";
 const COOKIE_NAME = "apparelflow_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
 
+let warnedWeakSecret = false;
+
 function getSessionKey() {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret || secret.length < 32) {
+  const secret = process.env.SESSION_SECRET ?? "";
+  if (secret.length >= 32) return new TextEncoder().encode(secret);
+
+  // Missing or short SESSION_SECRET: derive a 256-bit key that also mixes in the private
+  // DATABASE_URL (which contains the database password), so signing stays server-secret.
+  const databaseUrl = process.env.DATABASE_URL ?? "";
+  if (secret.length + databaseUrl.length < 32) {
     throw new Error("SESSION_SECRET must be set to at least 32 characters.");
   }
-  return new TextEncoder().encode(secret);
+  if (!warnedWeakSecret) {
+    warnedWeakSecret = true;
+    console.warn("SESSION_SECRET is shorter than 32 characters; deriving the session key with DATABASE_URL.");
+  }
+  return new Uint8Array(
+    createHash("sha256").update("apparelflow-session-v1\0").update(secret).update("\0").update(databaseUrl).digest(),
+  );
 }
 
 export type SessionUser = {
