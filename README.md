@@ -74,6 +74,8 @@ Two Playwright browser workflows cover GREEN approval through sewing and RED sho
 
 The Dockerfile builds Next.js in standalone mode and runs as an unprivileged user. For a cloud deployment, provide a managed PostgreSQL `DATABASE_URL`, a unique random `SESSION_SECRET` (at least 32 characters), and a private `DEMO_PASSWORD` (at least 12 characters). Run `npm run db:deploy` as a release step before routing traffic. Do not use the local Compose database password in a public environment. A public cloud deployment has not yet been created.
 
+For Netlify, import the GitHub repository and use the included `netlify.toml` build settings. Netlify's Next.js adapter handles App Router/server routes; standalone output remains enabled for Docker builds only. Add `DATABASE_URL`, `SESSION_SECRET`, and `DEMO_PASSWORD` as private site environment variables in Netlify (never prefix them with `NEXT_PUBLIC_`). Apply Prisma migrations to the managed database with `npm run db:deploy`, then seed the recipes and demo accounts once with `npm run db:seed`. Set the hosted database URL in the local shell for those one-time commands, or run them from a trusted database admin environment; do not point the public site at `localhost`.
+
 ## Milestone status
 
 - [x] Project scaffold and initial database schema/seed
