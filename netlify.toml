@@ -1,3 +1,10 @@
 [build]
   command = "npx prisma generate && npm run build"
   publish = ".next"
+
+[build.environment]
+  # Turbopack's persistent build cache records the values of environment
+  # variables it tracks (including SESSION_SECRET). These cache files are
+  # never deployed, so exclude them from secrets scanning while keeping
+  # scanning enabled for source code and deployed build output.
+  SECRETS_SCAN_OMIT_PATHS = ".netlify/.next/cache/**,.next/cache/**"
