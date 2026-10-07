@@ -22,7 +22,7 @@ Status: in progress. This checklist reflects checks actually performed to date; 
 - [x] The sewing queue database query selects only `VERIFIED` orders.
 - [x] Approval/rejection logs preserve verifier, decision, timestamp, component variance snapshot, reason where applicable, and wastage for approval.
 - [x] PostgreSQL trigger blocks verification-log updates and deletes.
-- [ ] PostgreSQL migrations/seed have not been applied to a running database in this environment.
+- [x] PostgreSQL migrations were applied and demo accounts were seeded in the hosted Neon database.
 - [ ] Live multi-user/concurrency behavior has not been exercised against PostgreSQL.
 
 ## Validation and delivery
@@ -33,8 +33,8 @@ Status: in progress. This checklist reflects checks actually performed to date; 
 - [x] ESLint, TypeScript typecheck, and production build passed.
 - [x] Docker Compose configuration parses.
 - [ ] Docker image build and runtime are unverified because Docker daemon is unavailable.
-- [x] Local Git history has eleven milestone-oriented commits.
-- [ ] Public cloud deployment and public GitHub repository have not been created.
+- [x] Milestone-oriented Git history is pushed to the public GitHub repository on `main`.
+- [x] Netlify deployment is available at https://apparelflowerp.netlify.app; user reports that login is working.
 - [x] README and in-progress AI report are present.
 - [x] Sampled input, body, secondary text, button, and status-badge colors were checked; text contrast is at least 4.97:1 and input-border contrast is at least 3.48:1.
 - [ ] Full keyboard/screen-reader and browser visual review is pending.

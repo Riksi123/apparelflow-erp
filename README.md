@@ -16,7 +16,7 @@ The application uses Next.js App Router and TypeScript. PostgreSQL is the persis
 ## Local setup
 
 1. Install Node.js and PostgreSQL.
-2. Copy `.env.example` to `.env` and set `DATABASE_URL`, a random `SESSION_SECRET` of at least 32 characters, and a private `DEMO_PASSWORD` of at least 12 characters.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL`, a random `SESSION_SECRET` of at least 32 characters, and `DEMO_PASSWORD` (at least 12 characters).
 3. Install dependencies with `npm install`.
 4. Generate the Prisma client with `npm run db:generate`.
 5. Create/apply the development schema with `npm run db:migrate` (or deploy checked-in migrations with `npm run db:deploy`).
@@ -25,7 +25,23 @@ The application uses Next.js App Router and TypeScript. PostgreSQL is the persis
 
 Alternatively, with Docker Desktop running, set `SESSION_SECRET` and `DEMO_PASSWORD` in your shell and run `docker compose up --build`. Compose starts PostgreSQL, waits for its health check, applies migrations, seeds recipes/demo users, and starts the production server. The credentials in `compose.yaml` are for local development only.
 
-Use `npm run db:deploy` to apply checked-in migrations in a deployment environment. Demo emails are `cutting.supervisor@apparelflow.local`, `cutting.verifier@apparelflow.local`, and `sewing.supervisor@apparelflow.local`; all use the private `DEMO_PASSWORD` value supplied at seed time.
+Use `npm run db:deploy` to apply checked-in migrations in a deployment environment.
+
+## Demo credentials
+
+Live assessment demo: [https://apparelflowerp.netlify.app](https://apparelflowerp.netlify.app)
+
+The public assessment demo has three role-specific accounts. All three share the demo-only password below:
+
+| Role | Login email |
+| --- | --- |
+| Cutting Supervisor | `cutting.supervisor@apparelflow.local` |
+| Cutting Verifier | `cutting.verifier@apparelflow.local` |
+| Sewing Supervisor | `sewing.supervisor@apparelflow.local` |
+
+**Shared demo password:** `Rixy@123Mathu`
+
+These credentials are public so evaluators can test each role. Do not reuse this password for personal accounts or store sensitive production data in the assessment demo.
 
 ## Data model and state
 
@@ -72,9 +88,9 @@ Two Playwright browser workflows cover GREEN approval through sewing and RED sho
 
 ## Deployment
 
-The Dockerfile builds Next.js in standalone mode and runs as an unprivileged user. For a cloud deployment, provide a managed PostgreSQL `DATABASE_URL`, a unique random `SESSION_SECRET` (at least 32 characters), and a private `DEMO_PASSWORD` (at least 12 characters). Run `npm run db:deploy` as a release step before routing traffic. Do not use the local Compose database password in a public environment. A public cloud deployment has not yet been created.
+The Dockerfile builds Next.js in standalone mode and runs as an unprivileged user. For a cloud deployment, provide a managed PostgreSQL `DATABASE_URL`, a unique random `SESSION_SECRET` (at least 32 characters), and a `DEMO_PASSWORD` used when seeding demo accounts. Run `npm run db:deploy` as a release step before routing traffic. Do not use the local Compose database password in a public environment. The assessment demo password is published above for evaluator access; use these accounts only for demo data.
 
-For Netlify, import the GitHub repository and use the included `netlify.toml` build settings. Netlify's Next.js adapter handles App Router/server routes; standalone output remains enabled for Docker builds only. Add `DATABASE_URL`, `SESSION_SECRET`, and `DEMO_PASSWORD` as private site environment variables in Netlify (never prefix them with `NEXT_PUBLIC_`). Apply Prisma migrations to the managed database with `npm run db:deploy`, then seed the recipes and demo accounts once with `npm run db:seed`. Set the hosted database URL in the local shell for those one-time commands, or run them from a trusted database admin environment; do not point the public site at `localhost`.
+For Netlify, import the GitHub repository and use the included `netlify.toml` build settings. Netlify's Next.js adapter handles App Router/server routes; standalone output remains enabled for Docker builds only. Add `DATABASE_URL` and `SESSION_SECRET` as private site environment variables in Netlify (never prefix them with `NEXT_PUBLIC_`). Set `DEMO_PASSWORD` to the password used for the seeded demo accounts if seeding from Netlify. Apply Prisma migrations to the managed database with `npm run db:deploy`, then seed the recipes and demo accounts once with `npm run db:seed`. Set the hosted database URL in the local shell for those one-time commands, or run them from a trusted database admin environment; do not point the public site at `localhost`.
 
 ## Milestone status
 
